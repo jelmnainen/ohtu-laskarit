@@ -89,8 +89,8 @@ public class VarastoTest {
     @Test
     public void negatiivinenOttaminenPalauttaa0(){
         double maara = varasto.otaVarastosta(-1.0);
-        assertEquals(0.0, maara, vertailuTarkkuus)
-;    }
+        assertEquals(0.0, maara, vertailuTarkkuus);
+    }
 
     public void konstr() {
         varasto = new Varasto(-1);
