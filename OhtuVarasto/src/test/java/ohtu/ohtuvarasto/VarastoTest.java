@@ -81,8 +81,8 @@ public class VarastoTest {
 
     @Test
     public void otaVarastostaEiSaaEnempaaKuinSaldon(){
-        varasto.lisaaVarastoon(6.0);
-        double maara = varasto.otaVarastosta(5.0);
+        varasto.lisaaVarastoon(5.0);
+        double maara = varasto.otaVarastosta(6.0);
         assertEquals(5.0, maara, vertailuTarkkuus);
     }
 
