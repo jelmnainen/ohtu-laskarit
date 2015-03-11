@@ -47,6 +47,20 @@ public class VarastoTest {
     }
 
     @Test
+    public void lisaaVarastoonEiMeneMaksiminYli(){
+        varasto.lisaaVarastoon(11.0);
+        assertEquals(10.0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+
+    @Test
+    public void negatiivinenLisaysPalauttaaNull(){
+        varasto.lisaaVarastoon(-1.0);
+        assertEquals(0.0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+
+    @Test
     public void ottaminenPalauttaaOikeanMaaran() {
         varasto.lisaaVarastoon(8);
 
@@ -66,6 +80,18 @@ public class VarastoTest {
     }
 
     @Test
+    public void otaVarastostaEiSaaEnempaaKuinSaldon(){
+        varasto.lisaaVarastoon(5.0);
+        double maara = varasto.otaVarastosta(6.0);
+        assertEquals(5.0, maara, vertailuTarkkuus);
+    }
+
+    @Test
+    public void negatiivinenOttaminenPalauttaa0(){
+        double maara = varasto.otaVarastosta(-1.0);
+        assertEquals(0.0, maara, vertailuTarkkuus);
+    }
+
     public void konstr() {
         varasto = new Varasto(-1);
         varasto = new Varasto(0);
