@@ -1,2 +1,7 @@
+
 /viikko2/Ohtu-NhlStatistics1/target/
 /viikko2/Verkkokauppa1/target/
+/target/
+/OhtuVarasto/target/
+*.badfile
+
