@@ -39,8 +39,40 @@ public class AuthenticationService {
     }
 
     private boolean invalid(String username, String password) {
-        // validity check of username and password
+        boolean invalid = false;
+        
+        if(this.usernameIsInvalid(username)){
+            invalid = true;
+        }
+        
+        if(this.passwordIsInvalid(password)){
+            invalid = true;
+        }
 
-        return false;
+        return invalid;
+    }
+
+    private boolean passwordIsInvalid(String password) {
+        boolean invalid = false;
+        
+        if(password.length() < 8){
+            invalid = true;
+        }
+        
+        if(!password.matches(".*\\d+.*")){
+            invalid = true;
+        }
+        
+        return invalid;
+    }
+
+    private boolean usernameIsInvalid(String username) {
+        boolean invalid = false;
+        
+        if(username.length() < 2){
+            invalid = true;
+        }
+        
+        return invalid;
     }
 }
