@@ -38,4 +38,42 @@ public class Main {
             System.out.println(tapahtuma);
         }
     }
+    
+    public static int[][][] multipleNestedFors(){
+            int[][][] matrix = new int[10][10][10];
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[i].length; j++){
+                for (int k = 0; k < matrix.length; k++) {
+                    matrix[i][j][k] = 0;   
+                }
+            }
+        }
+        return matrix;
+    }
+    
+    public static int[][][] multipleNestedForsDuplicate(){
+            int[][][] matrix = new int[10][10][10];
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[i].length; j++){
+                for (int k = 0; k < matrix.length; k++) {
+                    matrix[i][j][k] = 0;   
+                }
+            }
+        }
+        return matrix;
+    }
+    
+    public static String multipleNestedIfs(int n){
+        
+        if(n>10){
+            if(n<50){
+                if(n == 42){
+                    return "It is the meaning of Life!";
+                }
+            }
+        }
+        
+        return "it wasn't the meaning of life :(";
+        
+    }
 }
