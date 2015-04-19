@@ -31,7 +31,7 @@ public class Submission {
     private String a19;
     private String a20;
     private String a21;
-    private HashMap<Integer, Boolean> doneAssignments;
+    private HashMap<Integer, String> doneAssignments;
     private String createdAt;
     private String updatedAt;
     private int courseId;
@@ -41,10 +41,104 @@ public class Submission {
     @Override
     public String toString() {
         return  "Viikko " + this.week + ":\n" +
-                //"Tehtyjä tehtäviä: " + getNumberOfDoneAssignments() + ",\n" +
-                //"tehdyt tehtävät: " + getDoneAssignmentNumbersAsString()
-                "";
-                
+                "Tehtyjä tehtäviä: " + getNumberOfDoneAssignments() + ",\n" +
+                "tehdyt tehtävät: " + getDoneAssignmentNumbersAsString();
+    }
+    
+    private ArrayList<Integer> getDoneAssignmentNumbers() {
+        this.setDoneAssignments();
+        ArrayList<Integer> doneAssignments = new ArrayList();
+        for(int key : this.doneAssignments.keySet()){
+            if(this.doneAssignments.get(key).equals("true")){
+                doneAssignments.add(key);
+            }
+        }
+        return doneAssignments;
+        
+    }
+
+    private String getDoneAssignmentNumbersAsString() {
+        ArrayList<Integer> doneAssignmentsList = this.getDoneAssignmentNumbers();
+        String res = "";
+        
+        for(int i : doneAssignmentsList){
+            res = res + i + ", ";
+        }
+
+        if(res.length() > 2){
+            res = res.substring(0, res.length()-2);
+        }
+        
+        return res;
+        
+    }
+    
+    public void setDoneAssignments(){
+        this.doneAssignments = new HashMap<Integer, String>();
+        if(this.getA1() != null){
+            this.doneAssignments.put(1, this.getA1());
+        }
+        if(this.getA2() != null){
+         this.doneAssignments.put(2, this.getA2());
+        }
+        if(this.getA3() != null){
+         this.doneAssignments.put(3, this.getA3());
+        }
+        if(this.getA4() != null){
+         this.doneAssignments.put(4, this.getA4());
+        }
+        if(this.getA5() != null){
+            this.doneAssignments.put(5, this.getA5());
+        }
+        if(this.getA6() != null){
+            this.doneAssignments.put(6, this.getA6());
+        }
+        if(this.getA7() != null){
+            this.doneAssignments.put(7, this.getA7());
+        }
+        if(this.getA8() != null){
+            this.doneAssignments.put(8, this.getA8());
+        }
+        if(this.getA9() != null){
+            this.doneAssignments.put(9, this.getA9());
+        }
+        if(this.getA10() != null){
+            this.doneAssignments.put(10, this.getA10());
+        }
+        if(this.getA11() != null){
+            this.doneAssignments.put(11, this.getA11());
+        }
+        if(this.getA12() != null){
+            this.doneAssignments.put(12, this.getA12());
+        }
+        if(this.getA13() != null){
+            this.doneAssignments.put(13, this.getA13());
+        }
+        if(this.getA14() != null){
+            this.doneAssignments.put(14, this.getA14());
+        }
+        if(this.getA15() != null){
+            this.doneAssignments.put(15, this.getA15());
+        }
+        if(this.getA16() != null){
+            this.doneAssignments.put(16, this.getA16());
+        }
+        if(this.getA17() != null){
+            this.doneAssignments.put(17, this.getA17());
+        }
+        if(this.getA18() != null){
+            this.doneAssignments.put(18, this.getA18());
+        }
+        if(this.getA19() != null){
+            this.doneAssignments.put(19, this.getA19());
+        }
+        if(this.getA20() != null){
+            this.doneAssignments.put(20, this.getA20());
+        }
+        if(this.getA21() != null){
+            this.doneAssignments.put(21, this.getA21());
+        }
+        
     }
     
     public String getStudent_number() {
@@ -114,14 +208,14 @@ public class Submission {
     /**
      * @return the doneAssignments
      */
-    public HashMap<Integer, Boolean> getDoneAssignments() {
+    public HashMap<Integer, String> getDoneAssignments() {
         return doneAssignments;
     }
 
     /**
      * @param doneAssignments the doneAssignments to set
      */
-    public void setDoneAssignments(HashMap<Integer, Boolean> doneAssignments) {
+    public void setDoneAssignments(HashMap<Integer, String> doneAssignments) {
         this.doneAssignments = doneAssignments;
     }
 
@@ -168,41 +262,17 @@ public class Submission {
     }
 
     private int getNumberOfDoneAssignments() {
+        this.setDoneAssignments();
         int done = 0;
         for(int key : this.doneAssignments.keySet()){
-            if(this.doneAssignments.get(key) == true){
+            if(this.doneAssignments.get(key).equals("true")){
                 done++;
             }
         }
         return done;
     }
 
-    private ArrayList<Integer> getDoneAssignmentNumbers() {
-        ArrayList<Integer> doneAssignments = new ArrayList();
-        for(int key : this.doneAssignments.keySet()){
-            if(this.doneAssignments.get(key) == true){
-                doneAssignments.add(key);
-            }
-        }
-        return doneAssignments;
-        
-    }
 
-    private String getDoneAssignmentNumbersAsString() {
-        ArrayList<Integer> doneAssignments = this.getDoneAssignmentNumbers();
-        String res = "";
-        
-        for(int i : doneAssignments){
-            res = i + ", ";
-        }
-        
-        if(res.length() > 2){
-            res = res.substring(0, res.length()-2);
-        }
-        
-        return res;
-        
-    }
 
     /**
      * @return the a1
