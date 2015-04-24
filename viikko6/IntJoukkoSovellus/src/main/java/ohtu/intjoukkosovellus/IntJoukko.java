@@ -7,110 +7,100 @@ public class IntJoukko {
                             OLETUSKASVATUS = 5;  // luotava uusi taulukko on 
     // näin paljon isompi kuin vanha
     private int kasvatuskoko;     // Uusi taulukko on tämän verran vanhaa suurempi.
-    private int[] ljono;      // Joukon luvut säilytetään taulukon alkupäässä. 
+    private int[] joukko;      // Joukon luvut säilytetään taulukon alkupäässä. 
     private int alkioidenLkm;    // Tyhjässä joukossa alkioiden_määrä on nolla. 
 
     public IntJoukko() {
-        ljono = new int[KAPASITEETTI];
-        for (int i = 0; i < ljono.length; i++) {
-            ljono[i] = 0;
-        }
-        alkioidenLkm = 0;
-        this.kasvatuskoko = OLETUSKASVATUS;
+        this(KAPASITEETTI);
     }
 
     public IntJoukko(int kapasiteetti) {
-        if (kapasiteetti < 0) {
-            return;
-        }
-        ljono = new int[kapasiteetti];
-        for (int i = 0; i < ljono.length; i++) {
-            ljono[i] = 0;
-        }
-        alkioidenLkm = 0;
-        this.kasvatuskoko = OLETUSKASVATUS;
-
+        this(kapasiteetti, OLETUSKASVATUS);
     }
     
     
     public IntJoukko(int kapasiteetti, int kasvatuskoko) {
         if (kapasiteetti < 0) {
-            throw new IndexOutOfBoundsException("Kapasitteetti väärin");//heitin vaan jotain :D
+            throw new IndexOutOfBoundsException("Kapasiteetin täytyy olla vähintään 0!");
         }
+        this.joukko = alustaJoukko(kapasiteetti);
+        
         if (kasvatuskoko < 0) {
-            throw new IndexOutOfBoundsException("kapasiteetti2");//heitin vaan jotain :D
+            throw new IndexOutOfBoundsException("Kasvatuskoon täytyy olla vähintään 0!");
         }
-        ljono = new int[kapasiteetti];
-        for (int i = 0; i < ljono.length; i++) {
-            ljono[i] = 0;
-        }
-        alkioidenLkm = 0;
         this.kasvatuskoko = kasvatuskoko;
 
     }
 
-    public boolean lisaa(int luku) {
-
-        int eiOle = 0;
-        if (alkioidenLkm == 0) {
-            ljono[0] = luku;
-            alkioidenLkm++;
-            return true;
-        } else {
+    private int[] alustaJoukko(int kapasiteetti) {
+        int[] alustettava = new int[kapasiteetti];
+        for (int i = 0; i < alustettava.length; i++) {
+            alustettava[i] = 0;
         }
-        if (!kuuluu(luku)) {
-            ljono[alkioidenLkm] = luku;
-            alkioidenLkm++;
-            if (alkioidenLkm % ljono.length == 0) {
-                int[] taulukkoOld = new int[ljono.length];
-                taulukkoOld = ljono;
-                kopioiTaulukko(ljono, taulukkoOld);
-                ljono = new int[alkioidenLkm + kasvatuskoko];
-                kopioiTaulukko(taulukkoOld, ljono);
-            }
-            return true;
+        alkioidenLkm = 0;
+        return alustettava;
+        
+    }
+
+    public boolean lisaa(int luku) {
+        if (!alkioOnJoukossa(luku)) {
+            lisaaAlkioTaulukkoon(luku);
         }
         return false;
     }
 
-    public boolean kuuluu(int luku) {
-        int on = 0;
+    private boolean lisaaAlkioTaulukkoon(int luku) {
+        joukko[alkioidenLkm] = luku;
+        alkioidenLkm++;
+        if (alkioidenLkm % joukko.length == 0) {
+            int[] vanhaTaulukko = joukko;
+            kopioiTaulukko(joukko, vanhaTaulukko);
+            joukko = new int[alkioidenLkm + kasvatuskoko];
+            kopioiTaulukko(vanhaTaulukko, joukko);
+        }
+        return true;
+    }
+
+    public boolean alkioOnJoukossa(int luku) {
         for (int i = 0; i < alkioidenLkm; i++) {
-            if (luku == ljono[i]) {
-                on++;
+            if (luku == joukko[i]) {
+                return true;
             }
         }
-        if (on > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     public boolean poista(int luku) {
-        int kohta = -1;
         int apu;
-        for (int i = 0; i < alkioidenLkm; i++) {
-            if (luku == ljono[i]) {
-                kohta = i; //siis luku löytyy tuosta kohdasta :D
-                ljono[kohta] = 0;
-                break;
-            }
-        }
-        if (kohta != -1) {
-            for (int j = kohta; j < alkioidenLkm - 1; j++) {
-                apu = ljono[j];
-                ljono[j] = ljono[j + 1];
-                ljono[j + 1] = apu;
-            }
-            alkioidenLkm--;
+        int luvunPaikka = etsiLuvunPaikka(luku);
+        if (luvunPaikka != -1) {
+            joukko[luvunPaikka] = 0;
+            siirraAlkioitaVasemmalle(luvunPaikka);
             return true;
         }
-
-
         return false;
     }
 
+    private int etsiLuvunPaikka(int luku) {
+        int luvunPaikka = -1;
+        for (int i = 0; i < alkioidenLkm; i++) {
+            if (luku == joukko[i]) {
+                return i; 
+            }
+        }
+        return luvunPaikka;
+    }
+
+    private void siirraAlkioitaVasemmalle(int kohta) {
+        int apu;
+        for (int j = kohta; j < alkioidenLkm - 1; j++) {
+            apu = joukko[j];
+            joukko[j] = joukko[j + 1];
+            joukko[j + 1] = apu;
+        }
+        alkioidenLkm--;
+    }
+    
     private void kopioiTaulukko(int[] vanha, int[] uusi) {
         for (int i = 0; i < vanha.length; i++) {
             uusi[i] = vanha[i];
@@ -125,26 +115,20 @@ public class IntJoukko {
 
     @Override
     public String toString() {
-        if (alkioidenLkm == 0) {
-            return "{}";
-        } else if (alkioidenLkm == 1) {
-            return "{" + ljono[0] + "}";
-        } else {
-            String tuotos = "{";
-            for (int i = 0; i < alkioidenLkm - 1; i++) {
-                tuotos += ljono[i];
-                tuotos += ", ";
-            }
-            tuotos += ljono[alkioidenLkm - 1];
-            tuotos += "}";
-            return tuotos;
+        String tulos = "{";
+        for (int i = 0; i < alkioidenLkm - 1; i++) {
+            tulos += joukko[i];
+            tulos += ", ";
         }
+        tulos += joukko[alkioidenLkm - 1];
+        tulos += "}";
+        return tulos;
     }
 
     public int[] toIntArray() {
         int[] taulu = new int[alkioidenLkm];
         for (int i = 0; i < taulu.length; i++) {
-            taulu[i] = ljono[i];
+            taulu[i] = joukko[i];
         }
         return taulu;
     }
@@ -154,13 +138,15 @@ public class IntJoukko {
         IntJoukko x = new IntJoukko();
         int[] aTaulu = a.toIntArray();
         int[] bTaulu = b.toIntArray();
-        for (int i = 0; i < aTaulu.length; i++) {
-            x.lisaa(aTaulu[i]);
-        }
-        for (int i = 0; i < bTaulu.length; i++) {
-            x.lisaa(bTaulu[i]);
-        }
+        lisaaTaulukkoJoukkoon(aTaulu, x);
+        lisaaTaulukkoJoukkoon(bTaulu, x);
         return x;
+    }
+
+    private static void lisaaTaulukkoJoukkoon(int[] taulu, IntJoukko x) {
+        for (int i = 0; i < taulu.length; i++) {
+            x.lisaa(taulu[i]);
+        }
     }
 
     public static IntJoukko leikkaus(IntJoukko a, IntJoukko b) {
