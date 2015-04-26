@@ -5,21 +5,13 @@ import statistics.matcher.*;
 public class Main {
     public static void main(String[] args) {
         Statistics stats = new Statistics(new PlayerReaderImpl("http://nhlstats-2013-14.herokuapp.com/players.txt"));
-          
-        Matcher m = new And( new HasAtLeast(10, "goals"),
-                             new HasAtLeast(10, "assists"),
-                             new PlaysIn("PHI")
-        );
+        QueryBuilder query = new QueryBuilder();
         
-        Matcher c = new Or( new PlaysIn("COL"),
-                            new PlaysIn("PHI"));
         
-        for (Player player : stats.matches(m)) {
-            System.out.println( player );
-        }
-        
-        for (Player player : stats.matches(c)){
-            System.out.println(player);
+        Matcher a = query.oneOf(query.PlaysIn("PHI").build(), query.PlaysIn("CAL").build()).build();
+
+        for (Player player : stats.matches(a)){
+            System.out.println(player   );
         }
     }
 }
